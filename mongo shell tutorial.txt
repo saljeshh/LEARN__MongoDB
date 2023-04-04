@@ -1,0 +1,180 @@
+C:\Program Files\MongoDB\Server\5.0\bin>mongo
+MongoDB shell version v5.0.15
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("7f2dbf35-231a-46a1-a67f-0293355b1111") }
+MongoDB server version: 5.0.15
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting:
+        2023-04-02T14:00:53.696+05:45: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> show collections
+> use spp
+switched to db spp
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> db.students.insertOne({name: "saljesh",favColor:"black"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("64293c9fa0fb4eaebb9a1c98")
+}
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+spp     0.000GB
+> show collections
+students
+> db.students.find()
+{ "_id" : ObjectId("64293c9fa0fb4eaebb9a1c98"), "name" : "saljesh", "favColor" : "black" }
+> db.personal
+spp.personal
+> db.personal.insertOne({gender: "male", interest:"MMA"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("64293d9fa0fb4eaebb9a1c99")
+}
+> db.personal.find()
+{ "_id" : ObjectId("64293d9fa0fb4eaebb9a1c99"), "gender" : "male", "interest" : "MMA" }
+> show collections
+personal
+students
+> db.personal.find()
+{ "_id" : ObjectId("64293d9fa0fb4eaebb9a1c99"), "gender" : "male", "interest" : "MMA" }
+>
+> db.personal.insertMany([{name: "ram", gender: "male"},{name: "aney", gender: "female"},{name: "su", gender: "male"}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("64293e0ea0fb4eaebb9a1c9a"),
+                ObjectId("64293e0ea0fb4eaebb9a1c9b"),
+                ObjectId("64293e0ea0fb4eaebb9a1c9c")
+        ]
+}
+> db.personal.find()
+{ "_id" : ObjectId("64293d9fa0fb4eaebb9a1c99"), "gender" : "male", "interest" : "MMA" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9a"), "name" : "ram", "gender" : "male" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney", "gender" : "female" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9c"), "name" : "su", "gender" : "male" }
+>
+> db.personal.find({name:"aney"})
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney", "gender" : "female" }
+>
+>
+> db.personal.insertOne({name: "aney"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("64293e52a0fb4eaebb9a1c9d")
+}
+>
+> db.personal.find({name: "aney"})
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney", "gender" : "female" }
+{ "_id" : ObjectId("64293e52a0fb4eaebb9a1c9d"), "name" : "aney" }
+>
+> db.personal.find({name: "aney"}).limit(1)
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney", "gender" : "female" }
+>
+> db.personal.findOne({name: "aney"})_
+uncaught exception: SyntaxError: unexpected token: identifier :
+@(shell):1:35
+>
+> db.personal.findOne({name: "aney})
+uncaught exception: SyntaxError: "" literal not terminated before end of script :
+@(shell):1:34
+> db.personal.findOne({name: "aney"})
+{
+        "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"),
+        "name" : "aney",
+        "gender" : "female"
+}
+>
+> db.personal.find()
+{ "_id" : ObjectId("64293d9fa0fb4eaebb9a1c99"), "gender" : "male", "interest" : "MMA" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9a"), "name" : "ram", "gender" : "male" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney", "gender" : "female" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9c"), "name" : "su", "gender" : "male" }
+{ "_id" : ObjectId("64293e52a0fb4eaebb9a1c9d"), "name" : "aney" }
+>
+>
+> db.personal.updateOne({name: "ram"},{$set:{name: "Jay shree ram"})
+...
+... ^C
+
+> db.personal.updateOne({name: "ram"}, {$set:{name:"Jay shree RAM"}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+>
+> db.personal.fin()
+uncaught exception: TypeError: db.personal.fin is not a function :
+@(shell):1:1
+> db.personal.find()
+{ "_id" : ObjectId("64293d9fa0fb4eaebb9a1c99"), "gender" : "male", "interest" : "MMA" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9a"), "name" : "Jay shree RAM", "gender" : "male" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney", "gender" : "female" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9c"), "name" : "su", "gender" : "male" }
+{ "_id" : ObjectId("64293e52a0fb4eaebb9a1c9d"), "name" : "aney" }
+>
+> db.personal.updateMany({name: "aney"},{$set: {name: "annika"}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.personal.find()
+{ "_id" : ObjectId("64293d9fa0fb4eaebb9a1c99"), "gender" : "male", "interest" : "MMA" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9a"), "name" : "Jay shree RAM", "gender" : "male" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "annika", "gender" : "female" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9c"), "name" : "su", "gender" : "male" }
+{ "_id" : ObjectId("64293e52a0fb4eaebb9a1c9d"), "name" : "annika" }
+>
+>
+> db.personal.updateMany({name: "annika"},{$set:{name: "aney mae", gender: "female"}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+> db.personal.find()
+{ "_id" : ObjectId("64293d9fa0fb4eaebb9a1c99"), "gender" : "male", "interest" : "MMA" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9a"), "name" : "Jay shree RAM", "gender" : "male" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney mae", "gender" : "female" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9c"), "name" : "su", "gender" : "male" }
+{ "_id" : ObjectId("64293e52a0fb4eaebb9a1c9d"), "name" : "aney mae", "gender" : "female" }
+>
+>
+> db.personal.deleteOne({})\
+uncaught exception: SyntaxError: "" literal not terminated before end of script :
+@(shellhelp1):1:54
+error2:SyntaxError: "" literal not terminated before end of script :
+@(shellhelp1):1:54
+
+> db.personal.deleteOne({})
+{ "acknowledged" : true, "deletedCount" : 1 }
+>
+> db.personal.find()
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9a"), "name" : "Jay shree RAM", "gender" : "male" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9b"), "name" : "aney mae", "gender" : "female" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9c"), "name" : "su", "gender" : "male" }
+{ "_id" : ObjectId("64293e52a0fb4eaebb9a1c9d"), "name" : "aney mae", "gender" : "female" }
+>
+>
+> db.personal.deleteMany({name: "aney mae"})
+{ "acknowledged" : true, "deletedCount" : 2 }
+>
+> db.personal.find()
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9a"), "name" : "Jay shree RAM", "gender" : "male" }
+{ "_id" : ObjectId("64293e0ea0fb4eaebb9a1c9c"), "name" : "su", "gender" : "male" }
